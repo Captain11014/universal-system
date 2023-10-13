@@ -1,0 +1,35 @@
+server:
+  port: 7777
+
+
+# 数据源配置
+spring:
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driverClassName: com.mysql.cj.jdbc.Driver
+    username: root
+    password: root
+    url: jdbc:mysql://127.0.0.1/system_database?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
+    druid:
+      #      url: jdbc:mysql://47.115.226.141:3306/system_database?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
+      #      username: root
+      #      password: Captain$Chen@2001
+      initial-size: 20
+      min-idle: 10
+      max-active: 100
+# MyBatis配置
+mybatis:
+  #  configuration:
+  #    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  # 搜索指定包别名
+  typeAliasesPackage: com.universal.system.**.model
+  # 配置mapper的扫描，找到所有的mapper.xml映射文件
+  mapperLocations: classpath*:mapper/**/*Mapper.xml
+  # 加载全局的配置文件
+  configLocation: classpath:mybatis/mybatis-config.xml
+
+# 日志配置
+logging:
+  level:
+    com.coriander: debug
+    org.springframework: warn
