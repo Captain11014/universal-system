@@ -16,7 +16,7 @@ class UniversalSystemApplicationTests {
     @Test
     void contextLoads() {
 
-        SysUser sysUser = sysUserMapper.selectById(1);
+        SysUser sysUser = sysUserMapper.selectUserById(1L);
         System.out.println(sysUser);
 
     }
