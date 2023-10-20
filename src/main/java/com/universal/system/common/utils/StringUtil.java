@@ -1,11 +1,14 @@
 package com.universal.system.common.utils;
 
+import com.universal.system.common.constant.Constants;
+import org.apache.commons.lang3.StringUtils;
+
 /**
  * @author 姓陈的
  * 2023/4/5 11:05
  * 字符串工具类
  */
-public class StringUtil {
+public class StringUtil extends org.apache.commons.lang3.StringUtils {
 
     /**
      * 空字符串
@@ -101,6 +104,17 @@ public class StringUtil {
         return sb.toString();
     }
 
+
+    /**
+     * 是否为http(s)://开头
+     *
+     * @param link 链接
+     * @return 结果
+     */
+    public static boolean ishttp(String link)
+    {
+        return StringUtils.startsWithAny(link, Constants.HTTP, Constants.HTTPS);
+    }
 
 
 
