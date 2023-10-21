@@ -3,17 +3,25 @@ package com.universal.system.common.exception;
 import com.universal.system.common.result.AjaxResult;
 import com.universal.system.common.result.HttpStatus;
 import io.jsonwebtoken.ExpiredJwtException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * 全局异常处理类
  * @author 姓陈的
  * 2023/6/5 14:51
  */
-@ControllerAdvice
+@RestControllerAdvice
 public class GlobalExceptionHandler {
+
+    private static final Logger log = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
     @ExceptionHandler(Exception.class)
     @ResponseBody
@@ -38,11 +46,12 @@ public class GlobalExceptionHandler {
     }
 
 
-    @ExceptionHandler(ExpiredJwtException.class)
+    @ExceptionHandler(AccessDeniedException.class)
     @ResponseBody
-    public AjaxResult error(ExpiredJwtException e){
-        e.printStackTrace();
-        return AjaxResult.error(HttpStatus.FORBIDDEN,"认证过期");
+    public AjaxResult handleAccessDeniedException(AccessDeniedException e, HttpServletRequest request){
+        String requestURI = request.getRequestURI();
+        log.error("请求地址'{}',权限校验失败'{}'", requestURI, e.getMessage());
+        return AjaxResult.error(HttpStatus.FORBIDDEN, "无权限");
     }
 
 

@@ -1,7 +1,7 @@
 package com.universal.system.model.vo;
 
 
-import com.universal.system.common.utils.StringUtil;
+import com.universal.system.common.utils.StringUtils;
 
 /**
  * 路由显示信息
@@ -59,7 +59,7 @@ public class MetaVo
         this.title = title;
         this.icon = icon;
         this.noCache = noCache;
-        if (StringUtil.ishttp(link))
+        if (StringUtils.ishttp(link))
         {
             this.link = link;
         }

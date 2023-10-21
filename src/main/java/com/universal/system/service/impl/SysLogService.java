@@ -1,9 +1,11 @@
 package com.universal.system.service.impl;
 
 import cn.hutool.core.lang.UUID;
+import com.universal.system.common.constant.Constants;
 import com.universal.system.common.exception.UniversalException;
 import com.universal.system.common.result.HttpStatus;
 import com.universal.system.common.utils.AuthenticationContextHolder;
+import com.universal.system.common.utils.RedisCache;
 import com.universal.system.common.utils.jwt.JwtUtil;
 import com.universal.system.model.login.LoginBody;
 import com.universal.system.model.login.LoginUser;
@@ -27,6 +29,12 @@ public class SysLogService {
 
     @Resource
     private AuthenticationManager authenticationManager;
+
+    @Resource
+    private RedisCache redisCache;
+
+    @Resource
+    private JwtUtil jwtUtil;
 
     /**
      * 登录认证
@@ -57,13 +65,9 @@ public class SysLogService {
 
         String tokenKey = UUID.randomUUID().toString();
         LoginUser loginUser = (LoginUser)authentication.getPrincipal();
+        redisCache.setLoginUser(Constants.LOGIN_TOKENS+tokenKey,loginUser);
 
-        //TODO 将数据存入redis
-
-
-        System.out.println(loginUser);
-
-        return JwtUtil.createToken(tokenKey);
+        return jwtUtil.createToken(tokenKey);
 
     }
 

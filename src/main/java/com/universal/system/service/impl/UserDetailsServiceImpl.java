@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.Collections;
+import java.util.HashSet;
 
 /**
  * @author 姓陈的
@@ -50,8 +51,14 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             throw new UniversalException(HttpStatus.ERROR,"用户已注销！");
         }
 
-        //TODO 权限数据
-        return new LoginUser(sysUser, Collections.emptyList());
+        //TODO 权限数据，查询数据库获取对应权限
+        HashSet<String> p = new HashSet<>();
+        if(sysUser.getUserId() == 1){
+            p.add("*:*:*");
+        }
+        p.add("test");
+
+        return new LoginUser(sysUser, p);
     }
 
 

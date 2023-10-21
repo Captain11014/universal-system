@@ -1,6 +1,7 @@
 package com.universal.system.common.config;
 
 import com.universal.system.common.handel.AuthenticationEntryPointImpl;
+import com.universal.system.common.interceptor.JwtAuthenticationTokenFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -42,9 +43,13 @@ public class SecurityConfig {
     @Resource
     private AuthenticationEntryPointImpl unauthorizedHandler;
 
+    @Resource
+    JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter;
+
 
     /**
      * 密码明文加密方式配置
+     *
      * @return
      */
     @Bean
@@ -54,6 +59,7 @@ public class SecurityConfig {
 
     /**
      * 获取AuthenticationManager（认证管理器），登录时认证使用
+     *
      * @param authenticationConfiguration
      * @return
      * @throws Exception
@@ -65,8 +71,8 @@ public class SecurityConfig {
 
 
     @Bean
-    SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
-       return http
+    SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        return http
                 // CSRF禁用，因为不使用session
                 .csrf().disable()
                 // 禁用HTTP响应标头
@@ -85,18 +91,17 @@ public class SecurityConfig {
                 // 除上面外的所有请求全部需要鉴权认证
                 .anyRequest().authenticated()
                 .and()
-                .headers().frameOptions().disable().and().build();
+                .headers().frameOptions().disable().and()
+                .addFilterBefore(jwtAuthenticationTokenFilter, UsernamePasswordAuthenticationFilter.class)
+                .build();
         // 添加Logout filter
 //        http.logout().logoutUrl("/logout").logoutSuccessHandler(logoutSuccessHandler);
 //        // 添加JWT filter
-//        http.addFilterBefore(authenticationTokenFilter, UsernamePasswordAuthenticationFilter.class);
 //        // 添加CORS filter
 //        http.addFilterBefore(corsFilter, JwtAuthenticationTokenFilter.class);
 //        http.addFilterBefore(corsFilter, LogoutFilter.class);
+
     }
-
-
-
 
 
 }

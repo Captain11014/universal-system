@@ -3,9 +3,11 @@ package com.universal.system.controller;
 import com.universal.system.base.BaseController;
 import com.universal.system.common.constant.Constants;
 import com.universal.system.common.result.AjaxResult;
+import com.universal.system.common.utils.SecurityUtil;
 import com.universal.system.model.SysUser;
 import com.universal.system.model.login.LoginBody;
 import com.universal.system.service.impl.SysLogService;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -37,11 +39,13 @@ public class LoginController extends BaseController {
         return ajax;
     }
 
+    @PreAuthorize("@cp.hasPerm('test11')")
     @GetMapping("/getInfo")
     public AjaxResult getInfo(){
 
         AjaxResult ajax = AjaxResult.success();
         ajax.put("data","666666666666666666666666666");
+        ajax.put("id", SecurityUtil.getUserId());
         return ajax;
 
     }

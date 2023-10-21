@@ -1,6 +1,5 @@
 package com.universal.system.common.utils;
 
-import org.springframework.util.StringUtils;
 
 /**
  * @author 姓陈的
@@ -54,7 +53,7 @@ public class Convert {
             return ((Number) value).intValue();
         }
         final String valueStr = toStr(value,null);
-        if(StringUtil.isEmpty(valueStr)){
+        if(StringUtils.isEmpty(valueStr)){
             return defaultValue;
         }
         try{

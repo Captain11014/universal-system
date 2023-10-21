@@ -107,6 +107,11 @@ public class Constants
      */
     public static final String RESOURCE_PREFIX = "/profile";
 
+    /**
+     * 登录token前缀
+     */
+    public static final String LOGIN_TOKENS = "login_tokens:";
+
 
 
 }
