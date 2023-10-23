@@ -128,6 +128,15 @@ public class RedisCache {
         }
     }
 
+    /**
+     * 删除缓存
+     * @param key
+     * @return
+     */
+    public boolean delCache(String key){
+        return stringRedisTemplate.delete(key);
+    }
+
 
 
 }

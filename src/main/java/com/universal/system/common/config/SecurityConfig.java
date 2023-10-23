@@ -1,6 +1,7 @@
 package com.universal.system.common.config;
 
 import com.universal.system.common.handel.AuthenticationEntryPointImpl;
+import com.universal.system.common.handel.LogoutSuccessHandlerImpl;
 import com.universal.system.common.interceptor.JwtAuthenticationTokenFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -43,8 +44,17 @@ public class SecurityConfig {
     @Resource
     private AuthenticationEntryPointImpl unauthorizedHandler;
 
+    /**
+     * Token认证
+     */
     @Resource
     JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter;
+
+    /**
+     * 退出处理类
+     */
+    @Autowired
+    private LogoutSuccessHandlerImpl logoutSuccessHandler;
 
 
     /**
@@ -93,6 +103,9 @@ public class SecurityConfig {
                 .and()
                 .headers().frameOptions().disable().and()
                 .addFilterBefore(jwtAuthenticationTokenFilter, UsernamePasswordAuthenticationFilter.class)
+                .logout().logoutUrl("/logout").logoutSuccessHandler(logoutSuccessHandler).and()
+                .addFilterBefore(corsFilter,JwtAuthenticationTokenFilter.class)
+                .addFilterBefore(corsFilter,LogoutFilter.class)
                 .build();
         // 添加Logout filter
 //        http.logout().logoutUrl("/logout").logoutSuccessHandler(logoutSuccessHandler);

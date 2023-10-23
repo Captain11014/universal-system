@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.annotation.Resource;
@@ -22,7 +23,7 @@ import java.io.IOException;
  * @author 姓陈的
  * 2023/10/21 17:16
  */
-@Configuration
+@Component
 public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
 
     @Resource

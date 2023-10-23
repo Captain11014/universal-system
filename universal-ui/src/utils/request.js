@@ -86,10 +86,7 @@ service.interceptors.response.use(res => {
         isRelogin.show = true;
         MessageBox.confirm('登录状态已过期，您可以继续留在该页面，或者重新登录', '系统提示', { confirmButtonText: '重新登录', cancelButtonText: '取消', type: 'warning' }).then(() => {
           isRelogin.show = false;
-          //TODO退出登录
           store.dispatch('user/logout').then(() => {
-            location.href = '/index';
-          }).catch(() => {
             location.href = '/index';
           })
       }).catch(() => {

@@ -28,14 +28,13 @@ const mutations = {
 }
 
 const actions = {
-  // user login
+  // user login 登录
   login({ commit }, userInfo) {
     // const { username, password,code,uuif } = userInfo
     return new Promise((resolve, reject) => {
       login(userInfo).then(response => {
         setToken(response.token)
         commit('SET_TOKEN', response.token)
-        commit('SET_NAME', response.token)
         resolve()
       }).catch(error => {
         reject(error)
@@ -43,7 +42,7 @@ const actions = {
     })
   },
 
-  // get user info
+  // get user info 获取信息
   getInfo({ commit, state }) {
     return new Promise((resolve, reject) => {
       getInfo(state.token).then(response => {
@@ -55,7 +54,7 @@ const actions = {
         const { name, avatar } = data
 
         commit('SET_NAME', name)
-        commit('SET_AVATAR', avatar)
+        commit('SET_AVATAR', avatar?avatar:"https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif")
         resolve(data)
       }).catch(error => {
         reject(error)
@@ -63,15 +62,12 @@ const actions = {
     })
   },
 
-  // user logout
+  // user logout 退出登录
   logout({ commit, state }) {
     return new Promise((resolve, reject) => {
-
-      removeToken() // must remove  token  first
-
       logout(state.token).then(() => {
         removeToken() // must remove  token  first
-        resetRouter()
+        // resetRouter()
         commit('RESET_STATE')
         resolve()
       }).catch(error => {
