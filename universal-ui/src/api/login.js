@@ -22,3 +22,11 @@ export function logout() {
     method: 'post'
   })
 }
+
+/**获取验证码 */
+export function getCaptchaImg() {
+  return request({
+    url: '/captchaImage',
+    method: 'get'
+  })
+}

@@ -1,9 +1,15 @@
 <template>
   <div class="login-container">
-    <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" auto-complete="on" label-position="left">
-
+    <el-form
+      ref="loginForm"
+      :model="loginForm"
+      :rules="loginRules"
+      class="login-form"
+      auto-complete="on"
+      label-position="left"
+    >
       <div class="title-container">
-        <h3 class="title">Login Form</h3>
+        <h3 class="title">系统登录</h3>
       </div>
 
       <el-form-item prop="username">
@@ -41,30 +47,52 @@
         </span>
       </el-form-item>
 
-      <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">Login</el-button>
+      <el-form-item prop="code">
+        <span class="svg-container">
+          <svg-icon slot="prefix" icon-class="validCode" class="el-input__icon input-icon" />
+        </span>
+        <el-input
+          v-model="loginForm.code"
+          auto-complete="off"
+          placeholder="验证码"
+          style="width: 50%"
+          @keyup.enter.native="handleLogin"
+        ></el-input>
+        <div class="login-code">
+          <img :src="codeUrl" class="login-code-img" @click="getCode" />
+        </div>
+      </el-form-item>
 
-      <div class="tips">
-        <span style="margin-right:20px;">username: admin</span>
-        <span> password: any</span>
-      </div>
-
+      <el-button
+        :loading="loading"
+        type="primary"
+        style="width:100%;margin-bottom:30px;"
+        @click.native.prevent="handleLogin"
+      >Login</el-button>
     </el-form>
   </div>
 </template>
 
 <script>
 // import { validUsername } from '@/utils/validate'
+import { getCaptchaImg } from "@/api/login";
+
+const sec_ = 20;
 
 export default {
-  name: 'Login',
+  name: "Login",
   data() {
-   
     return {
+      //在规定时间内不允许重复点击
+      secTrue: true,
+      sec: sec_,
+      SI: undefined,
+      codeUrl: "",
       loginForm: {
-        username: '',
-        password: '',
-        code:'',
-        uuid:''
+        username: "",
+        password: "",
+        code: "",
+        uuid: ""
       },
       loginRules: {
         username: [
@@ -73,62 +101,116 @@ export default {
         password: [
           { required: true, trigger: "blur", message: "请输入您的密码" }
         ],
+        code: [{ required: true, trigger: "change", message: "请输入验证码" }]
       },
       loading: false,
-      passwordType: 'password',
+      passwordType: "password",
       redirect: undefined
-    }
+    };
   },
+
+  created() {
+    this.getCode();
+  },
+
   watch: {
     $route: {
       handler: function(route) {
-        this.redirect = route.query && route.query.redirect
+        this.redirect = route.query && route.query.redirect;
       },
       immediate: true
     }
   },
   methods: {
+    getCode() {
+      // if (this.secTrue) {
+      //   this.reprtitionClick();
+      //   console.log("允许获取验证码");
+        getCaptchaImg().then(res => {
+          this.codeUrl = "data:image/gif;base64," + res.captchaImage;
+          this.loginForm.uuid = res.uuid;
+        });
+      // } else {
+      //   this.$modal.notify(
+      //     "请勿重复获取验证码，请在" + this.sec + "秒后重新获取"
+      //   );
+      // }
+    },
+
     showPwd() {
-      if (this.passwordType === 'password') {
-        this.passwordType = ''
+      if (this.passwordType === "password") {
+        this.passwordType = "";
       } else {
-        this.passwordType = 'password'
+        this.passwordType = "password";
       }
       this.$nextTick(() => {
-        this.$refs.password.focus()
-      })
+        this.$refs.password.focus();
+      });
     },
     handleLogin() {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
-          this.loading = true
-          this.$store.dispatch('user/login', this.loginForm).then(() => {
-            this.$router.push({ path: this.redirect || '/' })
-            this.loading = false
-          }).catch(() => {
-            this.loading = false
-          })
+          this.loading = true;
+          this.$store
+            .dispatch("user/login", this.loginForm)
+            .then(() => {
+              this.$router.push({ path: this.redirect || "/" });
+              this.loading = false;
+            })
+            .catch(() => {
+              this.loading = false;
+              this.secTrue = true;
+              this.getCode();
+            });
         } else {
-          console.log('error submit!!')
-          return false
+          console.log("error submit!!");
+          return false;
         }
-      })
+      });
+    },
+
+    /**防止重复点击 */
+    reprtitionClick() {
+      let SI = setInterval(() => {
+        this.sec--;
+        console.log(this.secTrue);
+        if (this.sec > 0) {
+          this.secTrue = false;
+          console.log(this.sec);
+        } else {
+          this.secTrue = true;
+          this.sec = sec_;
+          clearInterval(SI);
+        }
+      }, 1000);
     }
   }
-}
+};
 </script>
 
 <style lang="scss">
 /* 修复input 背景不协调 和光标变色 */
 /* Detail see https://github.com/PanJiaChen/vue-element-admin/pull/927 */
 
-$bg:#283443;
-$light_gray:#fff;
+$bg: #283443;
+$light_gray: #fff;
 $cursor: #fff;
 
 @supports (-webkit-mask: none) and (not (cater-color: $cursor)) {
   .login-container .el-input input {
     color: $cursor;
+  }
+}
+
+.login-code {
+  width: 33%;
+  height: 51px;
+  float: right;
+  img {
+    width: 100%;
+    height: 51px;
+    cursor: pointer;
+    vertical-align: middle;
   }
 }
 
@@ -166,9 +248,9 @@ $cursor: #fff;
 </style>
 
 <style lang="scss" scoped>
-$bg:#2d3a4b;
-$dark_gray:#889aa4;
-$light_gray:#eee;
+$bg: #2d3a4b;
+$dark_gray: #889aa4;
+$light_gray: #eee;
 
 .login-container {
   min-height: 100%;
@@ -183,18 +265,6 @@ $light_gray:#eee;
     padding: 160px 35px 0;
     margin: 0 auto;
     overflow: hidden;
-  }
-
-  .tips {
-    font-size: 14px;
-    color: #fff;
-    margin-bottom: 10px;
-
-    span {
-      &:first-of-type {
-        margin-right: 16px;
-      }
-    }
   }
 
   .svg-container {

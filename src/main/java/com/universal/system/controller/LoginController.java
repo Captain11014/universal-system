@@ -39,7 +39,6 @@ public class LoginController extends BaseController {
         return ajax;
     }
 
-    @PreAuthorize("@cp.hasPerm('test11')")
     @GetMapping("/getInfo")
     public AjaxResult getInfo(){
 

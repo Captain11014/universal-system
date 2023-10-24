@@ -61,6 +61,26 @@ public class RedisCache {
     }
 
     /**
+     * redis存入String类型的值
+     * @param key 键名
+     * @param value 值
+     * @param timeOut 过期时间
+     * @param timeUnit 时间单位，（秒/分/时）
+     */
+    public void setCacheObject(String key, Object value, long timeOut, TimeUnit timeUnit){
+        redisTemplate.opsForValue().set(key, JSONUtil.toJsonStr(value),timeOut,timeUnit);
+    }
+
+    /**
+     * redis存入String类型的值
+     * @param key 键名
+     * @param value 值
+     */
+    public void setCacheObject(String key, Object value){
+        redisTemplate.opsForValue().set(key, JSONUtil.toJsonStr(value),expireTime,MINUTES);
+    }
+
+    /**
      * redis存入LoginUser
      * @param key 键名
      * @param loginUser 值
