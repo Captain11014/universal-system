@@ -8,7 +8,7 @@
 <script>
 import { login, logout, getInfo } from "@/api/login";
 export default {
-  name: "Login",
+  name: "Menu",
   data() {
     return {};
   },

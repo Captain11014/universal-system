@@ -19,7 +19,7 @@
         <el-input
           ref="username"
           v-model="loginForm.username"
-          placeholder="Username"
+          placeholder="账号"
           name="username"
           type="text"
           tabindex="1"
@@ -36,7 +36,7 @@
           ref="password"
           v-model="loginForm.password"
           :type="passwordType"
-          placeholder="Password"
+          placeholder="密码"
           name="password"
           tabindex="2"
           auto-complete="on"
@@ -47,7 +47,7 @@
         </span>
       </el-form-item>
 
-      <el-form-item prop="code">
+      <!-- <el-form-item prop="code">
         <span class="svg-container">
           <svg-icon slot="prefix" icon-class="validCode" class="el-input__icon input-icon" />
         </span>
@@ -61,7 +61,7 @@
         <div class="login-code">
           <img :src="codeUrl" class="login-code-img" @click="getCode" />
         </div>
-      </el-form-item>
+      </el-form-item> -->
 
       <el-button
         :loading="loading"

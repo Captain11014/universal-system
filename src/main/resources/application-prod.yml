@@ -9,27 +9,48 @@ spring:
     driverClassName: com.mysql.cj.jdbc.Driver
     username: root
     password: root
-    url: jdbc:mysql://127.0.0.1/system_database?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
+    url: jdbc:mysql://127.0.0.1:3306/system_database?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
     druid:
-      #      url: jdbc:mysql://47.115.226.141:3306/system_database?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
-      #      username: root
-      #      password: Captain$Chen@2001
       initial-size: 20
       min-idle: 10
       max-active: 100
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    password:
+    lettuce:
+      pool:
+        max-active: 8  #最大连接
+        max-idle: 8   #最大空闲连接
+        min-idle: 0   #最小空闲连接
+        max-wait: 100ms #连接等待时间
+
+
+# 日志配置
+logging:
+  level:
+    com.universal: debug
+    org.springframework: warn
+
+token:
+  auth: Authorizations
+  # 令牌有效期（默认1500分钟）
+  expireTime: 1500
+
+
+
 # MyBatis配置
 mybatis:
   #  configuration:
   #    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
   # 搜索指定包别名
-  typeAliasesPackage: com.universal.system.**.model
+  typeAliasesPackage: com.universal.system.model
   # 配置mapper的扫描，找到所有的mapper.xml映射文件
-  mapperLocations: classpath*:mapper/**/*Mapper.xml
+  mapperLocations: classpath*:mapper/*.xml
   # 加载全局的配置文件
   configLocation: classpath:mybatis/mybatis-config.xml
 
-# 日志配置
-logging:
-  level:
-    com.coriander: debug
-    org.springframework: warn
+knife4j:
+  enable: true
+  # 开启生产环境屏蔽
+  production: true
