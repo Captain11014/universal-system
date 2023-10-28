@@ -1,5 +1,6 @@
 package com.universal.system.service.impl;
 
+import com.universal.system.common.utils.StringUtils;
 import com.universal.system.mapper.SysRoleMapper;
 import com.universal.system.model.SysRole;
 import com.universal.system.service.SysRoleService;
@@ -50,13 +51,27 @@ public class SysRoleServiceImpl implements SysRoleService {
     }
 
     @Override
-    public SysRole checkRoleNameUnique(String roleName) {
-        return sysRoleMapper.checkRoleNameUnique(roleName);
+    public boolean checkRoleNameUnique(SysRole role) {
+        Long roleId = StringUtils.isNull(role.getRoleId()) ? -1L : role.getRoleId();
+        SysRole info = sysRoleMapper.checkRoleNameUnique(role.getRoleName());
+        if (StringUtils.isNotNull(info) && info.getRoleId().longValue() != roleId.longValue())
+        {
+            return false;
+        }
+        return true;
     }
 
     @Override
-    public SysRole checkRoleKeyUnique(String roleKey) {
-        return sysRoleMapper.checkRoleKeyUnique(roleKey);
+    public boolean checkRoleKeyUnique(SysRole role) {
+
+        Long roleId = StringUtils.isNull(role.getRoleId()) ? -1L : role.getRoleId();
+        SysRole info = sysRoleMapper.checkRoleKeyUnique(role.getRoleKey());
+        if (StringUtils.isNotNull(info) && info.getRoleId().longValue() != roleId.longValue())
+        {
+            return false;
+        }
+        return true;
+
     }
 
     @Override
@@ -76,6 +91,6 @@ public class SysRoleServiceImpl implements SysRoleService {
 
     @Override
     public int deleteRoleByIds(Long[] roleIds) {
-        return deleteRoleByIds(roleIds);
+        return sysRoleMapper.deleteRoleByIds(roleIds);
     }
 }
