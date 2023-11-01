@@ -91,6 +91,31 @@ public class SysUser extends BaseEntity {
      */
     private Long roleId;
 
+    public SysUser() {
+    }
+
+    public SysUser(Long userId) {
+        this.userId = userId;
+    }
+
+    public SysUser(Long userId, String userName, String nickName, String email, String phonenumber, String gender, String avatar, String password, String status, String delFlag, String loginIp, Date loginDate, List<SysRole> roles, Long[] roleIds, Long roleId) {
+        this.userId = userId;
+        this.userName = userName;
+        this.nickName = nickName;
+        this.email = email;
+        this.phonenumber = phonenumber;
+        this.gender = gender;
+        this.avatar = avatar;
+        this.password = password;
+        this.status = status;
+        this.delFlag = delFlag;
+        this.loginIp = loginIp;
+        this.loginDate = loginDate;
+        this.roles = roles;
+        this.roleIds = roleIds;
+        this.roleId = roleId;
+    }
+
     public Long getUserId() {
         return userId;
     }

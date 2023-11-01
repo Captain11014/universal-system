@@ -2,10 +2,12 @@ package com.universal.system.service.impl;
 
 import com.universal.system.common.utils.StringUtils;
 import com.universal.system.mapper.SysRoleMapper;
+import com.universal.system.mapper.SysUserRoleMapper;
 import com.universal.system.model.SysRole;
 import com.universal.system.service.SysRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -19,6 +21,8 @@ public class SysRoleServiceImpl implements SysRoleService {
 
     @Resource
     private SysRoleMapper sysRoleMapper;
+    @Resource
+    private SysUserRoleMapper userRoleMapper;
 
     @Override
     public List<SysRole> selectRoleList(SysRole role) {
@@ -89,8 +93,12 @@ public class SysRoleServiceImpl implements SysRoleService {
         return sysRoleMapper.deleteRoleById(roleId);
     }
 
+    @Transactional
     @Override
     public int deleteRoleByIds(Long[] roleIds) {
+
+        userRoleMapper.deleteUserRoleByIds(roleIds);
+
         return sysRoleMapper.deleteRoleByIds(roleIds);
     }
 }

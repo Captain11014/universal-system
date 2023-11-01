@@ -77,6 +77,16 @@ public class SysUserServiceImpl implements SysUserService {
     }
 
     @Override
+    public int updateUserStatus(SysUser user) {
+
+        if (user.isAdmin()){
+            throw new UniversalException(HttpStatus.ERROR,"此用户不允许修改状态");
+        }
+
+        return userMapper.updateUserStatus(user);
+    }
+
+    @Override
     public int updateUserAvatar(String userName, String avatar) {
         return 0;
     }
@@ -94,6 +104,11 @@ public class SysUserServiceImpl implements SysUserService {
     @Transactional
     @Override
     public int deleteUserByIds(Long[] userIds) {
+
+        for (Long userId : userIds)
+        {
+            checkUserAllowed(new SysUser(userId));
+        }
 
         userRoleMapper.deleteUserRole(userIds);
 

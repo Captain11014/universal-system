@@ -98,6 +98,21 @@ public class SysRoleController extends BaseController {
 
     }
 
+    /**
+     * 修改角色状态
+     * @param role
+     * @return
+     */
+    @PutMapping("/changeStatus")
+    public AjaxResult changeStatus(@RequestBody SysRole role){
+
+        if(role.isAdmin()){
+            return error("此角色状态不允许修改");
+        }
+
+        return toAjax(sysRoleService.updateRole(role));
+    }
+
 
 
 

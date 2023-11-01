@@ -60,4 +60,13 @@ public interface SysUserRoleMapper
      * @return 结果
      */
     public int deleteUserRoleInfos(@Param("roleId") Long roleId, @Param("userIds") Long[] userIds);
+
+    /**
+     * 批量删除用户授权
+     * @param roleId 角色Id
+     * @return
+     */
+    public int deleteUserRoleByIds(Long[] roleId);
+
+
 }

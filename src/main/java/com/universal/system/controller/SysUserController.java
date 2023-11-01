@@ -125,5 +125,15 @@ public class SysUserController extends BaseController {
         return toAjax(userService.deleteUserByIds(userIds));
     }
 
+    /**
+     * 更新用户状态
+     * @param user
+     * @return
+     */
+    @PutMapping("/changeStatus")
+    public AjaxResult changeStatus(@RequestBody SysUser user){
+        return toAjax(userService.updateUserStatus(user));
+    }
+
 
 }
