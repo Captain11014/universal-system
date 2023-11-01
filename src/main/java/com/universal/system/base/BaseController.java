@@ -6,6 +6,8 @@ import com.universal.system.common.page.PageUtil;
 import com.universal.system.common.page.TableDataInfo;
 import com.universal.system.common.result.AjaxResult;
 import com.universal.system.common.result.HttpStatus;
+import com.universal.system.common.utils.SecurityUtil;
+import com.universal.system.model.login.LoginUser;
 
 import java.util.List;
 
@@ -126,7 +128,31 @@ public class BaseController {
     }
 
 
+    /**
+     * 获取用户缓存信息
+     */
+    public LoginUser getLoginUser()
+    {
+        return SecurityUtil.getLoginUser();
+    }
 
+    /**
+     * 获取登录用户id
+     */
+    public Long getUserId()
+    {
+        return getLoginUser().getSysUser().getUserId();
+    }
+
+
+
+    /**
+     * 获取登录用户名
+     */
+    public String getUsername()
+    {
+        return getLoginUser().getUsername();
+    }
 
 
 

@@ -23,6 +23,7 @@ import javax.annotation.Resource;
 /**
  * @author 姓陈的
  * 2023/10/20 16:50
+ * 登录认证实现类
  */
 @Service
 public class SysLogService {

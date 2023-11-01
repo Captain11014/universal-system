@@ -22,6 +22,7 @@ import java.util.HashSet;
 /**
  * @author 姓陈的
  * 2023/10/20 16:18
+ * 登录验证
  */
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {

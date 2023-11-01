@@ -79,17 +79,12 @@ public class SysUser extends BaseEntity {
     /**
      * 角色对象
      */
-    private List<Role> roles;
+    private List<SysRole> roles;
 
     /**
      * 角色组
      */
     private Long[] roleIds;
-
-    /**
-     * 岗位组
-     */
-    private Long[] postIds;
 
     /**
      * 角色ID
@@ -192,11 +187,11 @@ public class SysUser extends BaseEntity {
         this.loginDate = loginDate;
     }
 
-    public List<Role> getRoles() {
+    public List<SysRole> getRoles() {
         return roles;
     }
 
-    public void setRoles(List<Role> roles) {
+    public void setRoles(List<SysRole> roles) {
         this.roles = roles;
     }
 
@@ -208,13 +203,6 @@ public class SysUser extends BaseEntity {
         this.roleIds = roleIds;
     }
 
-    public Long[] getPostIds() {
-        return postIds;
-    }
-
-    public void setPostIds(Long[] postIds) {
-        this.postIds = postIds;
-    }
 
     public Long getRoleId() {
         return roleId;
@@ -241,7 +229,6 @@ public class SysUser extends BaseEntity {
                 ", loginDate=" + loginDate +
                 ", roles=" + roles +
                 ", roleIds=" + Arrays.toString(roleIds) +
-                ", postIds=" + Arrays.toString(postIds) +
                 ", roleId=" + roleId +
                 '}';
     }
