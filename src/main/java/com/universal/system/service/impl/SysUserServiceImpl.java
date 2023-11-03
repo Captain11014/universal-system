@@ -38,12 +38,12 @@ public class SysUserServiceImpl implements SysUserService {
 
     @Override
     public List<SysUser> selectAllocatedList(SysUser user) {
-        return null;
+        return userMapper.selectAllocatedList(user);
     }
 
     @Override
     public List<SysUser> selectUnallocatedList(SysUser user) {
-        return null;
+        return userMapper.selectUnallocatedList(user);
     }
 
     @Override
@@ -173,6 +173,13 @@ public class SysUserServiceImpl implements SysUserService {
         if (StringUtils.isNotNull(user.getUserId()) && user.isAdmin()) {
             throw new UniversalException(HttpStatus.ERROR, "不允许操作超级管理员用户");
         }
+    }
+
+    @Transactional
+    @Override
+    public void insertUserAuth(Long userId, Long[] roleIds) {
+        userRoleMapper.deleteUserRoleByUserId(userId);
+        insertUserRole(userId,roleIds);
     }
 
 

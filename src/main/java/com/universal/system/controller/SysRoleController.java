@@ -4,7 +4,10 @@ import com.universal.system.base.BaseController;
 import com.universal.system.common.page.TableDataInfo;
 import com.universal.system.common.result.AjaxResult;
 import com.universal.system.model.SysRole;
+import com.universal.system.model.SysUser;
+import com.universal.system.model.SysUserRole;
 import com.universal.system.service.SysRoleService;
+import com.universal.system.service.SysUserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -25,6 +28,8 @@ public class SysRoleController extends BaseController {
 
     @Resource
     private SysRoleService sysRoleService;
+    @Resource
+    private SysUserService userService;
 
 
     /**
@@ -111,6 +116,63 @@ public class SysRoleController extends BaseController {
         }
 
         return toAjax(sysRoleService.updateRole(role));
+    }
+
+
+    /**
+     * 查询已分配用户角色列表
+     */
+//    @PreAuthorize("@cp.hasPerm('system:role:list')")
+    @GetMapping("/authUser/allocatedList")
+    public TableDataInfo allocatedList(SysUser user)
+    {
+        startPage();
+        List<SysUser> list = userService.selectAllocatedList(user);
+        return getDataTable(list);
+    }
+
+    /**
+     * 查询未分配用户角色列表
+     */
+//    @PreAuthorize("@cp.hasPerm('system:role:list')")
+    @GetMapping("/authUser/unallocatedList")
+    public TableDataInfo unallocatedList(SysUser user)
+    {
+        startPage();
+        List<SysUser> list = userService.selectUnallocatedList(user);
+        return getDataTable(list);
+    }
+
+
+    /**
+     * 批量选择用户授权
+     */
+//    @PreAuthorize("@cp.hasPerm('system:role:edit')")
+    @PutMapping("/authUser/selectAll")
+    public AjaxResult selectAuthUserAll(Long roleId, Long[] userIds)
+    {
+        return toAjax(sysRoleService.insertAuthUsers(roleId, userIds));
+    }
+
+
+    /**
+     * 取消授权用户
+     */
+    @PreAuthorize("@cp.hasPerm('system:role:edit')")
+    @PutMapping("/authUser/cancel")
+    public AjaxResult cancelAuthUser(@RequestBody SysUserRole userRole)
+    {
+        return toAjax(sysRoleService.deleteAuthUser(userRole));
+    }
+
+    /**
+     * 批量取消授权用户
+     */
+//    @PreAuthorize("@cp.hasPerm('system:role:edit')")
+    @PutMapping("/authUser/cancelAll")
+    public AjaxResult cancelAuthUserAll(Long roleId, Long[] userIds)
+    {
+        return toAjax(sysRoleService.deleteAuthUsers(roleId, userIds));
     }
 
 

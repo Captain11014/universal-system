@@ -85,26 +85,58 @@ export const constantRoutes = [
     alwaysShow: true  ,
     children: [
       {
-        path: '/menu',
+        path: 'menu',
         component: () => import('@/views/system/menu/index'),
         name: 'Menu',
         meta: { title: '菜单管理', icon: 'dashboard', affix: true }
       },
       {
-        path:'/role',
+        path:'role',
         component:() => import('@/views/system/role/index'),
         name: 'Role',
         meta: { title: '角色管理', icon: 'dashboard', affix: true }
       },
       {
-        path:'/sysUser',
+        path:'sysUser',
         component:() => import('@/views/system/sysUser/index'),
         name: 'SysUser',
         meta: { title: '用户管理', icon: 'dashboard', affix: true }
       }
     ]
   },
+
+  {
+    path: '/system/user-auth',
+    component: Layout,
+    hidden: true,
+    permissions: ['system:user:edit'],
+    children: [
+      {
+        path: 'role/:userId(\\d+)',
+        component: () => import('@/views/system/sysUser/authRole'),
+        name: 'AuthRole',
+        meta: { title: '分配角色', activeMenu: '/system/sysUser' }
+      }
+    ]
+  },
+
+  {
+    path: '/system/role-auth',
+    component: Layout,
+    hidden: true,
+    permissions: ['system:role:edit'],
+    children: [
+      {
+        path: 'user/:roleId(\\d+)',
+        component: () => import('@/views/system/role/authUser'),
+        name: 'AuthUser',
+        meta: { title: '分配用户', activeMenu: '/system/role' }
+      }
+    ]
+  },
+
  
+
 
   // {
   //   path: '/user',
@@ -122,7 +154,7 @@ export const constantRoutes = [
   // }
 ]
 
-// 动态路由，基于用户权限动态去加载
+//动态路由，基于用户权限动态去加载
 export const dynamicRoutes = [
   // {
   //   path: '/system/user-auth',
@@ -132,9 +164,9 @@ export const dynamicRoutes = [
   //   children: [
   //     {
   //       path: 'role/:userId(\\d+)',
-  //       component: () => import('@/views/system/user/authRole'),
+  //       component: () => import('@/views/system/sysUser/authRole'),
   //       name: 'AuthRole',
-  //       meta: { title: '分配角色', activeMenu: '/system/user' }
+  //       meta: { title: '分配角色', activeMenu: '/system/sysUser' }
   //     }
   //   ]
   // },
@@ -197,16 +229,16 @@ export const dynamicRoutes = [
 ]
 
 // 防止连续点击多次路由报错
-let routerPush = Router.prototype.push;
-let routerReplace = Router.prototype.replace;
-// push
-Router.prototype.push = function push(location) {
-  return routerPush.call(this, location).catch(err => err)
-}
-// replace
-Router.prototype.replace = function push(location) {
-  return routerReplace.call(this, location).catch(err => err)
-}
+// let routerPush = Router.prototype.push;
+// let routerReplace = Router.prototype.replace;
+// // push
+// Router.prototype.push = function push(location) {
+//   return routerPush.call(this, location).catch(err => console.error(err))
+// }
+// // replace
+// Router.prototype.replace = function push(location) {
+//   return routerReplace.call(this, location).catch(err => console.error(err))
+// }
 
 export default new Router({
   mode: 'history', // 去掉url中的#

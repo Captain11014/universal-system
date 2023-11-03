@@ -9,6 +9,7 @@ import com.universal.system.model.SysUser;
 import com.universal.system.service.SysRoleService;
 import com.universal.system.service.SysUserService;
 import org.apache.commons.lang3.ArrayUtils;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -135,5 +136,29 @@ public class SysUserController extends BaseController {
         return toAjax(userService.updateUserStatus(user));
     }
 
+
+    /**
+     * 根据用户编号获取授权角色
+     */
+    @GetMapping("/authRole/{userId}")
+    public AjaxResult authRole(@PathVariable("userId") Long userId)
+    {
+        AjaxResult ajax = AjaxResult.success();
+        SysUser user = userService.selectUserById(userId);
+        List<SysRole> roles = roleService.selectRolesByUserId(userId);
+        ajax.put("user", user);
+        ajax.put("roles", SysUser.isAdmin(userId) ? roles : roles.stream().filter(r -> !r.isAdmin()).collect(Collectors.toList()));
+        return ajax;
+    }
+
+    /**
+     * 用户授权角色
+     */
+    @PutMapping("/authRole")
+    public AjaxResult insertAuthRole(Long userId, Long[] roleIds)
+    {
+        userService.insertUserAuth(userId, roleIds);
+        return success();
+    }
 
 }

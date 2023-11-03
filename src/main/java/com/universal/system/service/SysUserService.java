@@ -139,4 +139,5 @@ public interface SysUserService {
      */
     public void checkUserAllowed(SysUser user);
 
+    void insertUserAuth(Long userId, Long[] roleIds);
 }

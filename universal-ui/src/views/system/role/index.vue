@@ -535,7 +535,12 @@ export default {
     /** 分配用户操作 */
     handleAuthUser: function(row) {
       const roleId = row.roleId;
-      this.$router.push("/system/role-auth/user/" + roleId);
+      this.$router.push({
+        path:"/system/role-auth/user/" + roleId,
+        query:{
+          "roleName":row.roleName
+        }
+      });
     },
     /** 提交按钮 */
     submitForm: function() {
