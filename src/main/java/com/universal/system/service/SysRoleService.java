@@ -4,6 +4,7 @@ import com.universal.system.model.SysRole;
 import com.universal.system.model.SysUserRole;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author 姓陈的
@@ -19,12 +20,12 @@ public interface SysRoleService {
     public List<SysRole> selectRoleList(SysRole role);
 
     /**
-     * 根据用户ID查询角色
+     * 根据用户ID查询角色权限
      *
      * @param userId 用户ID
-     * @return 角色列表
+     * @return 权限列表
      */
-    public List<SysRole> selectRolePermissionByUserId(Long userId);
+    public Set<String> selectRolePermissionByUserId(Long userId);
 
     /**
      * 查询所有角色

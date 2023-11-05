@@ -89,6 +89,29 @@ public class BaseController {
         return AjaxResult.error(msg);
     }
 
+    /**
+     * 返回警告消息
+     *
+     * @param msg 返回内容
+     * @return 警告消息
+     */
+    public static AjaxResult warn(String msg)
+    {
+        return AjaxResult.warn(msg, null);
+    }
+
+    /**
+     * 返回警告消息
+     *
+     * @param msg 返回内容
+     * @param data 数据对象
+     * @return 警告消息
+     */
+    public static AjaxResult warn(String msg, Object data)
+    {
+        return new AjaxResult(HttpStatus.WARN, msg, data);
+    }
+
 
     /**
      * 返回失败消息

@@ -117,6 +117,35 @@ public class Constants
      */
     public static final String CAPTCHA_CODE_KEY = "captcha_codes:";
 
+    /** 是否为系统默认（是） */
+    public static final String YES = "Y";
+
+    /** 是否菜单外链（是） */
+    public static final String YES_FRAME = "0";
+
+    /** 是否菜单外链（否） */
+    public static final String NO_FRAME = "1";
+
+    /** 菜单类型（目录） */
+    public static final String TYPE_DIR = "M";
+
+    /** 菜单类型（菜单） */
+    public static final String TYPE_MENU = "C";
+
+
+    /** Layout组件标识 */
+    public final static String LAYOUT = "Layout";
+
+    /** ParentView组件标识 */
+    public final static String PARENT_VIEW = "ParentView";
+
+    /** InnerLink组件标识 */
+    public final static String INNER_LINK = "InnerLink";
+
+    /** 校验是否唯一的返回标识 */
+    public final static boolean UNIQUE = true;
+    public final static boolean NOT_UNIQUE = false;
+
 
 
 }

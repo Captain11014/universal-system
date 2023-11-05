@@ -2,8 +2,10 @@ package com.universal.system.service.impl;
 
 import com.universal.system.common.utils.StringUtils;
 import com.universal.system.mapper.SysRoleMapper;
+import com.universal.system.mapper.SysRoleMenuMapper;
 import com.universal.system.mapper.SysUserRoleMapper;
 import com.universal.system.model.SysRole;
+import com.universal.system.model.SysRoleMenu;
 import com.universal.system.model.SysUserRole;
 import com.universal.system.service.SysRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,8 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * @author 姓陈的
@@ -25,15 +26,33 @@ public class SysRoleServiceImpl implements SysRoleService {
     private SysRoleMapper sysRoleMapper;
     @Resource
     private SysUserRoleMapper userRoleMapper;
+    @Resource
+    private SysRoleMenuMapper roleMenuMapper;
 
     @Override
     public List<SysRole> selectRoleList(SysRole role) {
         return sysRoleMapper.selectRoleList(role);
     }
 
+    /**
+     * 根据用户ID查询权限
+     *
+     * @param userId 用户ID
+     * @return 权限列表
+     */
     @Override
-    public List<SysRole> selectRolePermissionByUserId(Long userId) {
-        return sysRoleMapper.selectRolePermissionByUserId(userId);
+    public Set<String> selectRolePermissionByUserId(Long userId)
+    {
+        List<SysRole> perms = sysRoleMapper.selectRolePermissionByUserId(userId);
+        Set<String> permsSet = new HashSet<>();
+        for (SysRole perm : perms)
+        {
+            if (StringUtils.isNotNull(perm))
+            {
+                permsSet.addAll(Arrays.asList(perm.getRoleKey().trim().split(",")));
+            }
+        }
+        return permsSet;
     }
 
     @Override
@@ -80,14 +99,45 @@ public class SysRoleServiceImpl implements SysRoleService {
 
     }
 
+    @Transactional
     @Override
     public int updateRole(SysRole role) {
-        return sysRoleMapper.updateRole(role);
+        // 修改角色信息
+        sysRoleMapper.updateRole(role);
+        // 删除角色与菜单关联
+        roleMenuMapper.deleteRoleMenuByRoleId(role.getRoleId());
+        return insertRoleMenu(role);
     }
 
     @Override
     public int insertRole(SysRole role) {
-        return sysRoleMapper.insertRole(role);
+        // 新增角色信息
+        sysRoleMapper.insertRole(role);
+        return insertRoleMenu(role);
+    }
+
+    /**
+     * 新增角色菜单信息
+     *
+     * @param role 角色对象
+     */
+    public int insertRoleMenu(SysRole role)
+    {
+        int rows = 1;
+        // 新增用户与角色管理
+        List<SysRoleMenu> list = new ArrayList<SysRoleMenu>();
+        for (Long menuId : role.getMenuIds())
+        {
+            SysRoleMenu rm = new SysRoleMenu();
+            rm.setRoleId(role.getRoleId());
+            rm.setMenuId(menuId);
+            list.add(rm);
+        }
+        if (list.size() > 0)
+        {
+            rows = roleMenuMapper.batchRoleMenu(list);
+        }
+        return rows;
     }
 
     @Override

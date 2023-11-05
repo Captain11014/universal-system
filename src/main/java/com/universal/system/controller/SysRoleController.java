@@ -1,13 +1,20 @@
 package com.universal.system.controller;
 
 import com.universal.system.base.BaseController;
+import com.universal.system.common.constant.Constants;
 import com.universal.system.common.page.TableDataInfo;
 import com.universal.system.common.result.AjaxResult;
+import com.universal.system.common.utils.RedisCache;
+import com.universal.system.common.utils.ServletUtil;
+import com.universal.system.common.utils.StringUtils;
+import com.universal.system.common.utils.jwt.JwtUtil;
 import com.universal.system.model.SysRole;
 import com.universal.system.model.SysUser;
 import com.universal.system.model.SysUserRole;
+import com.universal.system.model.login.LoginUser;
 import com.universal.system.service.SysRoleService;
 import com.universal.system.service.SysUserService;
+import com.universal.system.service.impl.SysPermissionService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -30,6 +37,12 @@ public class SysRoleController extends BaseController {
     private SysRoleService sysRoleService;
     @Resource
     private SysUserService userService;
+    @Resource
+    private SysPermissionService permissionService;
+    @Resource
+    private JwtUtil jwtUtil;
+    @Resource
+    private RedisCache redisCache;
 
 
     /**
@@ -38,6 +51,7 @@ public class SysRoleController extends BaseController {
      * @param sysRole 角色信息
      * @return 角色数据集合信息
      */
+    @PreAuthorize("@cp.hasPerm('system:role:list')")
     @ApiOperation(value = "角色列表")
     @GetMapping("/list")
     public TableDataInfo selectRoleList(SysRole sysRole){
@@ -87,8 +101,23 @@ public class SysRoleController extends BaseController {
         if(!sysRoleService.checkRoleNameUnique(role)){
             return error(role.getRoleName()+"已存在");
         }
+        role.setUpdateBy(getUsername());
 
-        return toAjax(sysRoleService.updateRole(role));
+        if (sysRoleService.updateRole(role) > 0)
+        {
+            // 更新缓存用户权限
+            LoginUser loginUser = getLoginUser();
+            if (StringUtils.isNotNull(loginUser.getSysUser()) && !loginUser.getSysUser().isAdmin())
+            {
+                loginUser.setPermissions(permissionService.getMenuPermission(loginUser.getSysUser()));
+                loginUser.setSysUser(userService.selectUserByUserName(loginUser.getSysUser().getUserName()));
+                String tokenKey = Constants.LOGIN_TOKENS + jwtUtil.getTokenKey(ServletUtil.getRequest());
+                redisCache.setLoginUser(tokenKey,loginUser);
+            }
+            return success();
+        }
+        return error("修改角色'" + role.getRoleName() + "'失败，请联系管理员");
+
     }
 
     /**

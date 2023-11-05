@@ -31,6 +31,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Resource
     private SysUserMapper sysUserMapper;
+    @Resource
+    private SysPermissionService permissionService;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -59,7 +61,10 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         }
         p.add("test");
 
-        return new LoginUser(sysUser, p);
+        System.out.println("----------------------------------------------------------");
+        System.out.println(sysUser);
+
+        return new LoginUser(sysUser, permissionService.getMenuPermission(sysUser));
     }
 
 
