@@ -54,16 +54,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             throw new UniversalException(HttpStatus.ERROR,"用户已注销！");
         }
 
-        //TODO 权限数据，查询数据库获取对应权限
-        HashSet<String> p = new HashSet<>();
-        if(sysUser.getUserId() == 1){
-            p.add("*:*:*");
-        }
-        p.add("test");
-
-        System.out.println("----------------------------------------------------------");
-        System.out.println(sysUser);
-
         return new LoginUser(sysUser, permissionService.getMenuPermission(sysUser));
     }
 

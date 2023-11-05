@@ -4,15 +4,16 @@ import 'normalize.css/normalize.css' // A modern alternative to CSS resets
 
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
-import locale from 'element-ui/lib/locale/lang/en' // lang i18n
 
-import '@/styles/index.scss' // global css
-import '@/styles/ruoyi.scss'
+import './assets/styles/element-variables.scss'
+import '@/assets/styles/index.scss' // global css
+import '@/assets/styles/ruoyi.scss'
 
 import App from './App'
 import store from './store'
 import router from './router'
 import plugins from './plugins' // plugins
+import directive from './directive' // directive
 
 import '@/assets/icons' // icon
 import '@/permission' // permission control
@@ -34,8 +35,13 @@ import { parseTime, resetForm, addDateRange, selectDictLabel, selectDictLabels, 
 // 分页组件
 import Pagination from "@/components/Pagination";
 
+// 自定义表格工具组件
+import RightToolbar from "@/components/RightToolbar";
+
+
 // 全局组件挂载
 Vue.component('Pagination', Pagination)
+Vue.component('RightToolbar', RightToolbar)
 
 //全局方法挂载
 Vue.prototype.parseTime = parseTime
@@ -52,6 +58,7 @@ Vue.prototype.handleTree = handleTree
 // 如果想要中文版 element-ui，按如下方式声明
 Vue.use(ElementUI)
 Vue.use(plugins)
+Vue.use(directive)
 
 Vue.config.productionTip = false
 

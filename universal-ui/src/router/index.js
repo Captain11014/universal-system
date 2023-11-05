@@ -75,36 +75,11 @@ export const constantRoutes = [
     ]
   },
 
-  {
-    path: '/system',
-    component: Layout,
-    meta: {
-      title: '系统管理',
-      icon: 'el-icon-s-tools'
-    },
-    alwaysShow: true  ,
-    children: [
-      {
-        path: 'menu',
-        component: () => import('@/views/system/menu/index'),
-        name: 'Menu',
-        meta: { title: '菜单管理', icon: 'dashboard', affix: true }
-      },
-      {
-        path:'role',
-        component:() => import('@/views/system/role/index'),
-        name: 'Role',
-        meta: { title: '角色管理', icon: 'dashboard', affix: true }
-      },
-      {
-        path:'sysUser',
-        component:() => import('@/views/system/sysUser/index'),
-        name: 'SysUser',
-        meta: { title: '用户管理', icon: 'dashboard', affix: true }
-      }
-    ]
-  },
 
+]
+
+//动态路由，基于用户权限动态去加载
+export const dynamicRoutes = [
   {
     path: '/system/user-auth',
     component: Layout,
@@ -119,7 +94,6 @@ export const constantRoutes = [
       }
     ]
   },
-
   {
     path: '/system/role-auth',
     component: Layout,
@@ -134,98 +108,6 @@ export const constantRoutes = [
       }
     ]
   },
-
- 
-
-
-  // {
-  //   path: '/user',
-  //   component: Layout,
-  //   hidden: true,
-  //   redirect: 'noredirect',
-  //   children: [
-  //     {
-  //       path: 'profile',
-  //       component: () => import('@/views/system/user/profile/index'),
-  //       name: 'Profile',
-  //       meta: { title: '个人中心', icon: 'user' }
-  //     }
-  //   ]
-  // }
-]
-
-//动态路由，基于用户权限动态去加载
-export const dynamicRoutes = [
-  // {
-  //   path: '/system/user-auth',
-  //   component: Layout,
-  //   hidden: true,
-  //   permissions: ['system:user:edit'],
-  //   children: [
-  //     {
-  //       path: 'role/:userId(\\d+)',
-  //       component: () => import('@/views/system/sysUser/authRole'),
-  //       name: 'AuthRole',
-  //       meta: { title: '分配角色', activeMenu: '/system/sysUser' }
-  //     }
-  //   ]
-  // },
-  // {
-  //   path: '/system/role-auth',
-  //   component: Layout,
-  //   hidden: true,
-  //   permissions: ['system:role:edit'],
-  //   children: [
-  //     {
-  //       path: 'user/:roleId(\\d+)',
-  //       component: () => import('@/views/system/role/authUser'),
-  //       name: 'AuthUser',
-  //       meta: { title: '分配用户', activeMenu: '/system/role' }
-  //     }
-  //   ]
-  // },
-  // {
-  //   path: '/system/dict-data',
-  //   component: Layout,
-  //   hidden: true,
-  //   permissions: ['system:dict:list'],
-  //   children: [
-  //     {
-  //       path: 'index/:dictId(\\d+)',
-  //       component: () => import('@/views/system/dict/data'),
-  //       name: 'Data',
-  //       meta: { title: '字典数据', activeMenu: '/system/dict' }
-  //     }
-  //   ]
-  // },
-  // {
-  //   path: '/monitor/job-log',
-  //   component: Layout,
-  //   hidden: true,
-  //   permissions: ['monitor:job:list'],
-  //   children: [
-  //     {
-  //       path: 'index/:jobId(\\d+)',
-  //       component: () => import('@/views/monitor/job/log'),
-  //       name: 'JobLog',
-  //       meta: { title: '调度日志', activeMenu: '/monitor/job' }
-  //     }
-  //   ]
-  // },
-  // {
-  //   path: '/tool/gen-edit',
-  //   component: Layout,
-  //   hidden: true,
-  //   permissions: ['tool:gen:edit'],
-  //   children: [
-  //     {
-  //       path: 'index/:tableId(\\d+)',
-  //       component: () => import('@/views/tool/gen/editTable'),
-  //       name: 'GenEdit',
-  //       meta: { title: '修改生成配置', activeMenu: '/tool/gen' }
-  //     }
-  //   ]
-  // }
 ]
 
 // 防止连续点击多次路由报错

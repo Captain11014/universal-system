@@ -455,6 +455,7 @@ export default {
     handleUpdate(row) {
       this.$modal.loading("正在加载中...");
       this.reset();
+      console.log(this.form);
       const roleId = row.roleId || this.ids;
       const roleMenu = this.getRoleMenuTreeselect(roleId);
       getRole(roleId).then(response => {

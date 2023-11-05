@@ -1,5 +1,6 @@
 package com.universal.system.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.universal.system.base.BaseEntity;
 import lombok.Data;
 import lombok.ToString;
@@ -54,6 +55,7 @@ public class SysUser extends BaseEntity {
     /**
      * 密码
      */
+    @JsonIgnore
     private String password;
 
     /**

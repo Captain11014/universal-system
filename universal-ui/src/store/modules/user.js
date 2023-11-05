@@ -6,7 +6,9 @@ const getDefaultState = () => {
   return {
     token: getToken(),
     name: '',
-    avatar: ''
+    avatar: '',
+    roles: [],
+    permissions: []
   }
 }
 
@@ -24,6 +26,12 @@ const mutations = {
   },
   SET_AVATAR: (state, avatar) => {
     state.avatar = avatar
+  },
+  SET_ROLES: (state, roles) => {
+    state.roles = roles
+  },
+  SET_PERMISSIONS: (state, permissions) => {
+    state.permissions = permissions
   }
 }
 
@@ -45,17 +53,17 @@ const actions = {
   // get user info 获取信息
   getInfo({ commit, state }) {
     return new Promise((resolve, reject) => {
-      getInfo(state.token).then(response => {
-        const { data } = response
-        if (!data) {
-          return reject('Verification failed, please Login again.')
+      getInfo(state.token).then(res => {
+        const user = res.user
+        commit('SET_NAME', user.userName)
+        commit('SET_AVATAR', user.avatar?user.avatar:"https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif")
+        if (res.roles && res.roles.length > 0) { // 验证返回的roles是否是一个非空数组
+          commit('SET_ROLES', res.roles)
+          commit('SET_PERMISSIONS', res.permissions)
+        } else {
+          commit('SET_ROLES', ['ROLE_DEFAULT'])
         }
-
-        const { name, avatar } = data
-
-        commit('SET_NAME', name)
-        commit('SET_AVATAR', avatar?avatar:"https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif")
-        resolve(data)
+        resolve(res)
       }).catch(error => {
         reject(error)
       })
