@@ -26,7 +26,7 @@ import javax.annotation.Resource;
  * 登录认证实现类
  */
 @Service
-public class SysLogService {
+public class SysLoginService {
 
 
     @Resource

@@ -3,12 +3,17 @@ package com.universal.system.controller;
 import cn.hutool.core.codec.Base64;
 import cn.hutool.core.convert.impl.UUIDConverter;
 import cn.hutool.core.lang.UUID;
+import cn.hutool.core.util.RandomUtil;
 import com.google.code.kaptcha.impl.DefaultKaptcha;
+import com.universal.system.base.BaseController;
 import com.universal.system.common.constant.Constants;
 import com.universal.system.common.result.AjaxResult;
 import com.universal.system.common.utils.RedisCache;
+import com.universal.system.common.utils.StringUtils;
+import com.universal.system.service.EmailService;
 import org.springframework.util.FastByteArrayOutputStream;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
@@ -23,13 +28,19 @@ import java.util.concurrent.TimeUnit;
  * 获取验证码
  */
 @RestController
-public class CaptchaController {
+public class CaptchaController extends BaseController {
 
     @Resource
     private DefaultKaptcha defaultKaptcha;
 
     @Resource
     private RedisCache redisCache;
+
+    @Resource
+    private EmailService emailService;
+
+    private final static String EMAIL_SUBJECT = "注册验证码";
+
 
 
     /**
@@ -63,6 +74,20 @@ public class CaptchaController {
         return ajax;
 
 
+    }
+
+    /**
+     * 获取注册验证码
+     * @param toEmail
+     * @return
+     */
+    @GetMapping("/getRegisterCaptcha/{toEmail}")
+    public AjaxResult getRegisterCaptcha(@PathVariable String toEmail){
+        if (StringUtils.isEmpty(toEmail)) return error("验证码获取失败，请从新获取验证码");
+        String randomString = RandomUtil.randomNumbers(6);
+        redisCache.setCacheObject(Constants.REGISTER_EMAIL_CODE+toEmail,randomString,Constants.CAPTCHA_EXPIRATION,TimeUnit.MINUTES);
+        emailService.sendHtmlMail(toEmail,EMAIL_SUBJECT,randomString);
+        return success();
     }
 
 

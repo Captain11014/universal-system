@@ -24,6 +24,21 @@ spring:
         max-idle: 8   #最大空闲连接
         min-idle: 0   #最小空闲连接
         max-wait: 100ms #连接等待时间
+  mail:
+    default-encoding: UTF-8
+    host: smtp.qq.com
+    username: 你的邮箱地址
+    password: 你的授权码
+    port: 22
+    protocol: smtp
+    properties:
+      mail:
+        smtp:
+          ssl:
+            enable: true
+          socketFactory:
+            port: 465
+            class: javax.net.ssl.SSLSocketFactory
 
 
 # 日志配置

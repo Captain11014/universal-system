@@ -1,12 +1,11 @@
 package com.universal.system.common.exception;
 
+import com.sun.mail.smtp.SMTPSendFailedException;
 import com.universal.system.common.result.AjaxResult;
 import com.universal.system.common.result.HttpStatus;
-import io.jsonwebtoken.ExpiredJwtException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.access.AccessDeniedException;
-import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -54,6 +53,12 @@ public class GlobalExceptionHandler {
         return AjaxResult.error(HttpStatus.FORBIDDEN, "无权限");
     }
 
+    @ExceptionHandler(SMTPSendFailedException.class)
+    @ResponseBody
+    public AjaxResult handleSMTPSendFailedException(SMTPSendFailedException e, HttpServletRequest request){
+        log.error("邮件发送失败{}，邮箱地址不正确",e.getMessage());
+        return AjaxResult.error(HttpStatus.FORBIDDEN, "邮件发送失败，邮箱地址不正确");
+    }
 
 
 }

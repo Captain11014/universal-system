@@ -43,7 +43,14 @@
 
     <el-row :gutter="10" class="mb8">
       <el-col :span="1.5">
-        <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="handleAdd">新增</el-button>
+        <el-button
+          type="primary"
+          v-hasPermi="['system:role:add']"
+          plain
+          icon="el-icon-plus"
+          size="mini"
+          @click="handleAdd"
+        >新增</el-button>
       </el-col>
       <el-col :span="1.5">
         <el-button
@@ -53,6 +60,7 @@
           size="mini"
           :disabled="single"
           @click="handleUpdate"
+          v-hasPermi="['system:role:edit']"
         >修改</el-button>
       </el-col>
       <el-col :span="1.5">
@@ -63,6 +71,7 @@
           size="mini"
           :disabled="multiple"
           @click="handleDelete"
+          v-hasPermi="['system:role:remove']"
         >删除</el-button>
       </el-col>
       <!-- <el-col :span="1.5">
@@ -100,14 +109,21 @@
       </el-table-column>
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope" v-if="scope.row.roleId !== 1">
-          <el-button size="mini" type="text" icon="el-icon-edit" @click="handleUpdate(scope.row)">修改</el-button>
           <el-button
+            v-hasPermi="['system:role:edit']"
+            size="mini"
+            type="text"
+            icon="el-icon-edit"
+            @click="handleUpdate(scope.row)"
+          >修改</el-button>
+          <el-button
+            v-hasPermi="['system:role:remove']"
             size="mini"
             type="text"
             icon="el-icon-delete"
             @click="handleDelete(scope.row)"
           >删除</el-button>
-          <el-button size="mini" type="text"  @click="handleAuthUser(scope.row)">分配用户</el-button>
+          <el-button v-hasPermi="['system:role:edit']" size="mini" type="text" @click="handleAuthUser(scope.row)">分配用户</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -176,8 +192,6 @@
         <el-button @click="cancel">取 消</el-button>
       </div>
     </el-dialog>
-
-
   </div>
 </template>
 

@@ -1,9 +1,11 @@
 package com.universal.system.controller;
 
 import com.universal.system.base.BaseController;
+import com.universal.system.common.constant.Constants;
 import com.universal.system.common.page.TableDataInfo;
 import com.universal.system.common.result.AjaxResult;
 import com.universal.system.common.utils.StringUtils;
+import com.universal.system.common.utils.annotation.Log;
 import com.universal.system.model.SysRole;
 import com.universal.system.model.SysUser;
 import com.universal.system.service.SysRoleService;
@@ -34,6 +36,7 @@ public class SysUserController extends BaseController {
      * @param user
      * @return
      */
+    @PreAuthorize("@cp.hasPerm('system:user:list')")
     @GetMapping("/list")
     public TableDataInfo list(SysUser user){
         startPage();
@@ -46,6 +49,7 @@ public class SysUserController extends BaseController {
      * @param userId
      * @return
      */
+    @PreAuthorize("@cp.hasPerm('system:user:select')")
     @GetMapping(value = { "/", "/{userId}" })
     public AjaxResult selectUserById(@PathVariable(value = "userId", required = false) Long userId){
 
@@ -66,6 +70,8 @@ public class SysUserController extends BaseController {
      * @param user
      * @return
      */
+    @PreAuthorize("@cp.hasPerm('system:user:add')")
+    @Log(title = "用户管理",operate = Constants.OPERATE_INSERTE)
     @PostMapping
     public AjaxResult addUser(@RequestBody SysUser user){
 
@@ -91,6 +97,8 @@ public class SysUserController extends BaseController {
      * @param user
      * @return
      */
+    @PreAuthorize("@cp.hasPerm('system:user:edid')")
+    @Log(title = "用户管理",operate = Constants.OPERATE_UPDATE)
     @PutMapping
     public AjaxResult updateUser(@RequestBody SysUser user){
 
@@ -117,6 +125,8 @@ public class SysUserController extends BaseController {
      * @param userIds
      * @return
      */
+    @PreAuthorize("@cp.hasPerm('system:user:remove')")
+    @Log(title = "用户管理",operate = Constants.OPERATE_DELETE)
     @DeleteMapping("/{userIds}")
     public AjaxResult deleteUser(@PathVariable Long[] userIds){
         if (ArrayUtils.contains(userIds, getUserId()))
@@ -131,6 +141,8 @@ public class SysUserController extends BaseController {
      * @param user
      * @return
      */
+    @PreAuthorize("@cp.hasPerm('system:user:edit')")
+    @Log(title = "用户管理",operate = Constants.OPERATE_UPDATE)
     @PutMapping("/changeStatus")
     public AjaxResult changeStatus(@RequestBody SysUser user){
         return toAjax(userService.updateUserStatus(user));
@@ -154,6 +166,8 @@ public class SysUserController extends BaseController {
     /**
      * 用户授权角色
      */
+    @PreAuthorize("@cp.hasPerm('system:user:edit')")
+    @Log(title = "用户管理",operate = Constants.OPERATE_UPDATE)
     @PutMapping("/authRole")
     public AjaxResult insertAuthRole(Long userId, Long[] roleIds)
     {

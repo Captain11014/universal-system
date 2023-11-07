@@ -146,6 +146,28 @@ public class Constants
     public final static boolean UNIQUE = true;
     public final static boolean NOT_UNIQUE = false;
 
+    /**
+     * 账号注册验证码
+     */
+    public final static String REGISTER_EMAIL_CODE = "register_email_code:";
+
+
+    /**
+     * 操作类型SELECT
+     */
+    public static final String OPERATE_SELECT = "SELECT";
+    /**
+     * 操作类型INDERT
+     */
+    public static final String OPERATE_INSERTE = "INSERTE";
+    /**
+     * 操作类型UPDATE
+     */
+    public static final String OPERATE_UPDATE = "UPDATE";
+    /**
+     * 操作类型DELETE
+     */
+    public static final String OPERATE_DELETE = "DELETE";
 
 
 }

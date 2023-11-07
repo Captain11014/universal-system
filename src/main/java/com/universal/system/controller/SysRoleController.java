@@ -7,6 +7,7 @@ import com.universal.system.common.result.AjaxResult;
 import com.universal.system.common.utils.RedisCache;
 import com.universal.system.common.utils.ServletUtil;
 import com.universal.system.common.utils.StringUtils;
+import com.universal.system.common.utils.annotation.Log;
 import com.universal.system.common.utils.jwt.JwtUtil;
 import com.universal.system.model.SysRole;
 import com.universal.system.model.SysUser;
@@ -63,6 +64,7 @@ public class SysRoleController extends BaseController {
     /**
      * 根据角色编号获取详细信息
      */
+    @PreAuthorize("@cp.hasPerm('system:role:select')")
     @GetMapping(value = "/{roleId}")
     public AjaxResult getInfo(@PathVariable Long roleId)
     {
@@ -73,6 +75,8 @@ public class SysRoleController extends BaseController {
      * @param role
      * @return
      */
+    @PreAuthorize("@cp.hasPerm('system:role:add')")
+    @Log(title = "角色管理",operate = Constants.OPERATE_INSERTE)
     @PostMapping("/addRole")
     public AjaxResult insertRole(@RequestBody SysRole role){
 
@@ -93,6 +97,8 @@ public class SysRoleController extends BaseController {
      * @param role
      * @return
      */
+    @PreAuthorize("@cp.hasPerm('system:role:edit')")
+    @Log(title = "角色管理",operate = Constants.OPERATE_UPDATE)
     @PutMapping("updateRole")
     public AjaxResult updateRole(@RequestBody SysRole role){
         if(!sysRoleService.checkRoleKeyUnique(role)){
@@ -125,6 +131,8 @@ public class SysRoleController extends BaseController {
      * @param roleIds
      * @return
      */
+    @PreAuthorize("@cp.hasPerm('system:role:remove')")
+    @Log(title = "角色管理",operate = Constants.OPERATE_DELETE)
     @DeleteMapping("/{roleIds}")
     public AjaxResult deleteRole(@PathVariable Long[] roleIds){
 
@@ -137,6 +145,8 @@ public class SysRoleController extends BaseController {
      * @param role
      * @return
      */
+    @Log(title = "角色管理",operate = Constants.OPERATE_UPDATE)
+    @PreAuthorize("@cp.hasPerm('system:role:edit')")
     @PutMapping("/changeStatus")
     public AjaxResult changeStatus(@RequestBody SysRole role){
 
@@ -151,7 +161,7 @@ public class SysRoleController extends BaseController {
     /**
      * 查询已分配用户角色列表
      */
-//    @PreAuthorize("@cp.hasPerm('system:role:list')")
+    @PreAuthorize("@cp.hasPerm('system:role:list')")
     @GetMapping("/authUser/allocatedList")
     public TableDataInfo allocatedList(SysUser user)
     {
@@ -163,7 +173,7 @@ public class SysRoleController extends BaseController {
     /**
      * 查询未分配用户角色列表
      */
-//    @PreAuthorize("@cp.hasPerm('system:role:list')")
+    @PreAuthorize("@cp.hasPerm('system:role:list')")
     @GetMapping("/authUser/unallocatedList")
     public TableDataInfo unallocatedList(SysUser user)
     {
@@ -176,7 +186,8 @@ public class SysRoleController extends BaseController {
     /**
      * 批量选择用户授权
      */
-//    @PreAuthorize("@cp.hasPerm('system:role:edit')")
+    @Log(title = "角色管理",operate = Constants.OPERATE_UPDATE)
+    @PreAuthorize("@cp.hasPerm('system:role:edit')")
     @PutMapping("/authUser/selectAll")
     public AjaxResult selectAuthUserAll(Long roleId, Long[] userIds)
     {
@@ -187,6 +198,7 @@ public class SysRoleController extends BaseController {
     /**
      * 取消授权用户
      */
+    @Log(title = "角色管理",operate = Constants.OPERATE_UPDATE)
     @PreAuthorize("@cp.hasPerm('system:role:edit')")
     @PutMapping("/authUser/cancel")
     public AjaxResult cancelAuthUser(@RequestBody SysUserRole userRole)
@@ -197,7 +209,8 @@ public class SysRoleController extends BaseController {
     /**
      * 批量取消授权用户
      */
-//    @PreAuthorize("@cp.hasPerm('system:role:edit')")
+    @Log(title = "角色管理",operate = Constants.OPERATE_UPDATE)
+    @PreAuthorize("@cp.hasPerm('system:role:edit')")
     @PutMapping("/authUser/cancelAll")
     public AjaxResult cancelAuthUserAll(Long roleId, Long[] userIds)
     {

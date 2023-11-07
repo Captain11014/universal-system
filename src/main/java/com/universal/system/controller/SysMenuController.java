@@ -4,6 +4,7 @@ import com.universal.system.base.BaseController;
 import com.universal.system.common.constant.Constants;
 import com.universal.system.common.result.AjaxResult;
 import com.universal.system.common.utils.StringUtils;
+import com.universal.system.common.utils.annotation.Log;
 import com.universal.system.model.SysMenu;
 import com.universal.system.service.SysMenuService;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -48,6 +49,8 @@ public class SysMenuController extends BaseController {
     /**
      * 新增菜单
      */
+    @PreAuthorize("@cp.hasPerm('system:menu:add')")
+    @Log(title = "菜单管理",operate = Constants.OPERATE_INSERTE)
     @PostMapping
     public AjaxResult add(@Validated @RequestBody SysMenu menu)
     {
@@ -66,6 +69,8 @@ public class SysMenuController extends BaseController {
     /**
      * 修改菜单
      */
+    @PreAuthorize("@cp.hasPerm('system:menu:edit')")
+    @Log(title = "菜单管理",operate = Constants.OPERATE_UPDATE)
     @PutMapping
     public AjaxResult edit(@Validated @RequestBody SysMenu menu)
     {
@@ -89,6 +94,8 @@ public class SysMenuController extends BaseController {
     /**
      * 删除菜单
      */
+    @PreAuthorize("@cp.hasPerm('system:menu:remove')")
+    @Log(title = "菜单管理",operate = Constants.OPERATE_DELETE)
     @DeleteMapping("/{menuId}")
     public AjaxResult remove(@PathVariable("menuId") Long menuId)
     {
