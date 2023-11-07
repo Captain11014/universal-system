@@ -141,7 +141,7 @@ export default {
       }
 
       this.countdown = true;
-      
+
       getRegisterCaptcha(this.registerForm.username).then(res => {
         this.$modal.msgSuccess("验证码已发送至邮箱");
       })
@@ -195,7 +195,7 @@ export default {
   justify-content: center;
   align-items: center;
   height: 100%;
-  background-image: url("../assets/images/login-background.jpg");
+  // background-image: url("../assets/images/login-background.jpg");
   background-size: cover;
 }
 .title {
@@ -205,6 +205,7 @@ export default {
 }
 
 .register-form {
+  box-shadow: 0px 0px 5px rgb(212, 214, 212);
   border-radius: 6px;
   background: #ffffff;
   width: 400px;

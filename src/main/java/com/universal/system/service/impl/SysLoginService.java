@@ -46,7 +46,7 @@ public class SysLoginService {
     public String login(LoginBody loginBody){
 
         //校验验证码
-//        verifyCaptcha(loginBody.getCode(),loginBody.getUuid());
+        verifyCaptcha(loginBody.getCode(),loginBody.getUuid());
 
         // 用户验证
         Authentication authentication = null;
