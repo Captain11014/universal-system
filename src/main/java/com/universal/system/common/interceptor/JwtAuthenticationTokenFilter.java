@@ -5,6 +5,8 @@ import com.universal.system.common.utils.RedisCache;
 import com.universal.system.common.utils.StringUtils;
 import com.universal.system.common.utils.jwt.JwtUtil;
 import com.universal.system.model.login.LoginUser;
+import net.bytebuddy.implementation.auxiliary.AuxiliaryType;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
@@ -24,10 +26,10 @@ import java.io.IOException;
 @Component
 public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
 
-    @Resource
+    @Autowired
     private RedisCache redisCache;
 
-    @Resource
+    @Autowired
     private JwtUtil jwtUtil;
 
 

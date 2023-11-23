@@ -1,8 +1,8 @@
 package com.universal.system.common.utils.jwt;
-
-import com.alibaba.druid.util.StringUtils;
+import com.universal.system.common.utils.StringUtils;
 import io.jsonwebtoken.*;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;

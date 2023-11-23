@@ -1,9 +1,6 @@
 package com.universal.system.common.utils;
 
-
-import cn.hutool.json.JSONConfig;
 import cn.hutool.json.JSONUtil;
-import com.universal.system.common.constant.Constants;
 import com.universal.system.model.login.LoginUser;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;

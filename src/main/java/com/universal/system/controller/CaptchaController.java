@@ -50,6 +50,9 @@ public class CaptchaController extends BaseController {
      */
     @GetMapping("/captchaImage")
     public AjaxResult getCaptchaImage() throws IOException {
+
+        System.out.println("执行验证码接口=================================================");
+
         AjaxResult ajax = AjaxResult.success();
 
         //保存验证码到redis

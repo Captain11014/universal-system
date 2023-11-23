@@ -12,30 +12,33 @@ import com.universal.system.service.EmailService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.annotation.Resource;
 
 @SpringBootTest
 class UniversalSystemApplicationTests {
 
-    @Resource
-    private SysUserMapper sysUserMapper;
-
+//    @Resource
+//    private SysUserMapper sysUserMapper;
+//
+//    @Autowired
+//    private RedisCache redisCache;
+//
+//    @Resource
+//    private ObjectMapper mapper;
+//
+//    @Resource
+//    private EmailService emailService;
+//
     @Autowired
-    private RedisCache redisCache;
-
-    @Resource
-    private ObjectMapper mapper;
-
-    @Resource
-    private EmailService emailService;
+    private PasswordEncoder passwordEncoder;
 
     @Test
     void contextLoads() {
 
-        SysUser sysUser = sysUserMapper.selectUserById(1L);
-        System.out.println(sysUser);
-
+        String encode = passwordEncoder.encode("@chen$captain_2001");
+        System.out.println(encode);
     }
 
 
@@ -53,18 +56,6 @@ class UniversalSystemApplicationTests {
 //
 //
 //        System.out.println(redisCache.getJsonStr(key));
-    }
-
-    @Test
-    public void sendSimpleEmail(){
-        String content = "你好，恭喜你...";
-        emailService.sendSimpleMail("260521812@qq.com","祝福邮件",content);
-    }
-
-    @Test
-    public void sendMimeEmail(){
-        String content = "<a href='https://blog.csdn.net/'>你好，欢迎注册网站，请点击链接激活</a>";
-        emailService.sendHtmlMail("260521812@163.com","激活邮件",content);
     }
 
 
