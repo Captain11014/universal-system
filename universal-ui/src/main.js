@@ -37,6 +37,7 @@ import Pagination from "@/components/Pagination";
 
 // 自定义表格工具组件
 import RightToolbar from "@/components/RightToolbar";
+import { download } from '@/utils/request'
 
 
 // 全局组件挂载
@@ -50,6 +51,7 @@ Vue.prototype.addDateRange = addDateRange
 Vue.prototype.selectDictLabel = selectDictLabel
 Vue.prototype.selectDictLabels = selectDictLabels
 Vue.prototype.handleTree = handleTree
+Vue.prototype.download = download
 
 
 

@@ -15,6 +15,9 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -43,6 +46,33 @@ public class SysUserController extends BaseController {
         List<SysUser> list = userService.selectUserList(user);
         return getDataTable(list);
     }
+
+    /**
+     * 导出用户excel数据
+     * @param response
+     * @param user
+     */
+    @PreAuthorize("@cp.hasPerm('system:user:export')")
+    @PostMapping("/export")
+    public void export(HttpServletResponse response, SysUser user){
+        //查询数据
+        List<SysUser> list = userService.selectUserList(user);
+        //构建导出数据
+        List<List<Object>> writerData = list.stream().map(u -> {
+            List<Object> data = new ArrayList<>();
+            data.add(u.getUserName());
+            data.add(u.getNickName());
+            data.add(u.getEmail());
+            data.add(u.getPhonenumber());
+            data.add(u.getGender().equals("0")?"男":"女");
+            data.add(u.getStatus().equals("0")?"正常":"停用");
+            return data;
+        }).collect(Collectors.toList());
+        //文件名如果前端不设置则使用后端设置的文件名
+        exportNoModelExcel(response,buildExcelHead(List.of("用户名","昵称","邮箱","电话号码","性别","用户状态")),writerData);
+    }
+
+
 
     /**
      * 根据用户Id获取详细信息

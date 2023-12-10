@@ -60,7 +60,14 @@
 
     <el-row :gutter="10" class="mb8">
       <el-col :span="1.5">
-        <el-button type="primary" v-hasPermi="['system:user:add']" plain icon="el-icon-plus" size="mini" @click="handleAdd">新增</el-button>
+        <el-button
+          type="primary"
+          v-hasPermi="['system:user:add']"
+          plain
+          icon="el-icon-plus"
+          size="mini"
+          @click="handleAdd"
+        >新增</el-button>
       </el-col>
       <el-col :span="1.5">
         <el-button
@@ -83,6 +90,16 @@
           v-hasPermi="['system:user:remove']"
           @click="handleDelete"
         >删除</el-button>
+      </el-col>
+      <el-col :span="1.5">
+        <el-button
+          type="warning"
+          plain
+          icon="el-icon-download"
+          size="mini"
+          @click="handleExport"
+          v-hasPermi="['system:user:export']"
+        >导出</el-button>
       </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList" :columns="columns"></right-toolbar>
     </el-row>
@@ -152,7 +169,13 @@
       </el-table-column>
       <el-table-column label="操作" align="center" width="160" class-name="small-padding fixed-width">
         <template slot-scope="scope" v-if="scope.row.userId !== 1">
-          <el-button v-hasPermi="['system:user:edit']" size="mini" type="text" icon="el-icon-edit" @click="handleUpdate(scope.row)">修改</el-button>
+          <el-button
+            v-hasPermi="['system:user:edit']"
+            size="mini"
+            type="text"
+            icon="el-icon-edit"
+            @click="handleUpdate(scope.row)"
+          >修改</el-button>
           <el-button
             size="mini"
             type="text"
@@ -163,8 +186,16 @@
           <el-dropdown size="mini" @command="(command) => handleCommand(command, scope.row)">
             <el-button size="mini" type="text" icon="el-icon-d-arrow-right">更多</el-button>
             <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item v-hasPermi="['system:user:edit']" command="handleResetPwd" icon="el-icon-key">重置密码</el-dropdown-item>
-              <el-dropdown-item v-hasPermi="['system:user:edit']" command="handleAuthRole" icon="el-icon-circle-check">分配角色</el-dropdown-item>
+              <el-dropdown-item
+                v-hasPermi="['system:user:edit']"
+                command="handleResetPwd"
+                icon="el-icon-key"
+              >重置密码</el-dropdown-item>
+              <el-dropdown-item
+                v-hasPermi="['system:user:edit']"
+                command="handleAuthRole"
+                icon="el-icon-circle-check"
+              >分配角色</el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
         </template>
@@ -253,9 +284,15 @@
               </el-select>
             </el-form-item>
           </el-col>
-           <el-col :span="12">
+          <el-col :span="12">
             <el-form-item v-if="form.userId == undefined" label="用户密码" prop="password">
-              <el-input v-model="form.password" placeholder="请输入用户密码" type="password" maxlength="20" show-password/>
+              <el-input
+                v-model="form.password"
+                placeholder="请输入用户密码"
+                type="password"
+                maxlength="20"
+                show-password
+              />
             </el-form-item>
           </el-col>
         </el-row>
@@ -592,7 +629,13 @@ export default {
           this.$modal.msgSuccess("删除成功");
         })
         .catch(() => {});
-    }
+    },
+    /** 导出按钮操作 */
+    handleExport() {
+      this.download('system/user/export', {
+        ...this.queryParams
+      }, `用户数据_${new Date().getTime()}.xlsx`)
+    },
   }
 };
 </script>

@@ -51,3 +51,12 @@ export function register(data) {
     data: data
   })
 }
+
+/**获取注册验证码 */
+export function download(param,url) {
+  return request({
+    url: url,
+    params:param,
+    method: 'get'
+  })
+}
