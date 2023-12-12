@@ -37,7 +37,7 @@ class UniversalSystemApplicationTests {
     @Test
     void contextLoads() {
 
-        String encode = passwordEncoder.encode("@chen$captain_2001");
+        String encode = passwordEncoder.encode("");
         System.out.println(encode);
     }
 
