@@ -208,16 +208,7 @@ public class BaseController {
             throw new UniversalException(HttpStatus.ERROR,"数据导出失败，请联系管理员");
         }
     }
-    /**
-     * 导出excel数据文件
-     * @param response
-     * @param fieldList 要导出的字段集合
-     * @param data 导出的数据
-     * @throws IOException
-     */
-    public void exportExcel(HttpServletResponse response,  Class<?> c, Collection<String> fieldList, Collection<?> data)  {
-       exportExcel(response,"excel数据",c,fieldList,data);
-    }
+
 
     /**
      * 不创建对象（不需要在实体类添加注解）的导出
@@ -251,6 +242,17 @@ public class BaseController {
     public void exportNoModelExcel(HttpServletResponse response,List<List<String>> fieldList,Collection<?> data){
         //文件名为默认值，前端未设置则使用
         exportNoModelExcel(response,"excel数据",fieldList,data);
+    }
+
+    /**
+     * 导出excel数据文件
+     * @param response
+     * @param fieldList 要导出的字段集合
+     * @param data 导出的数据
+     * @throws IOException
+     */
+    public void exportExcel(HttpServletResponse response,  Class<?> c, Collection<String> fieldList, Collection<?> data)  {
+        exportExcel(response,"excel数据",c,fieldList,data);
     }
 
     /**

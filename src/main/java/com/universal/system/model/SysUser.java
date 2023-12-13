@@ -55,7 +55,7 @@ public class SysUser extends BaseEntity {
     /**
      * 密码
      */
-    @JsonIgnore
+//    @JsonIgnore
     private String password;
 
     /**
