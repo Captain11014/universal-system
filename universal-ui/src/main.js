@@ -32,17 +32,24 @@ import { parseTime, resetForm, addDateRange, selectDictLabel, selectDictLabels, 
 //   mockXHR()
 // }
 
-// 分页组件
-import Pagination from "@/components/Pagination";
 
 // 自定义表格工具组件
 import RightToolbar from "@/components/RightToolbar";
 import { download } from '@/utils/request'
+import { getDicts } from "@/api/system/dict/data";
 
+
+// 分页组件
+import Pagination from "@/components/Pagination";
+// 字典数据组件
+import DictData from '@/components/DictData'
+// 字典标签组件
+import DictTag from '@/components/DictTag'
 
 // 全局组件挂载
 Vue.component('Pagination', Pagination)
 Vue.component('RightToolbar', RightToolbar)
+Vue.component('DictTag', DictTag)
 
 //全局方法挂载
 Vue.prototype.parseTime = parseTime
@@ -52,6 +59,7 @@ Vue.prototype.selectDictLabel = selectDictLabel
 Vue.prototype.selectDictLabels = selectDictLabels
 Vue.prototype.handleTree = handleTree
 Vue.prototype.download = download
+Vue.prototype.getDicts = getDicts
 
 
 
@@ -61,6 +69,7 @@ Vue.prototype.download = download
 Vue.use(ElementUI)
 Vue.use(plugins)
 Vue.use(directive)
+DictData.install()
 
 Vue.config.productionTip = false
 

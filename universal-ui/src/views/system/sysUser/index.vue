@@ -139,6 +139,18 @@
         :show-overflow-tooltip="true"
       />
       <el-table-column
+        label="性别"
+        align="center"
+        key="gender"
+        prop="gender"
+        v-if="columns[3].visible"
+        :show-overflow-tooltip="true"
+      >
+        <template slot-scope="scope">
+          <dict-tag :options="dict.type.sys_user_sex" :value="scope.row.gender"/>
+        </template>
+      </el-table-column>
+      <el-table-column
         label="手机号码"
         align="center"
         key="phonenumber"

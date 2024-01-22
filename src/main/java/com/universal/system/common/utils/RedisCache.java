@@ -9,6 +9,7 @@ import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import java.util.Collection;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -57,6 +58,8 @@ public class RedisCache {
         stringRedisTemplate.opsForValue().set(key, JSONUtil.toJsonStr(value),expireTime,MINUTES);
     }
 
+
+
     /**
      * redis存入String类型的值
      * @param key 键名
@@ -64,8 +67,8 @@ public class RedisCache {
      * @param timeOut 过期时间
      * @param timeUnit 时间单位，（秒/分/时）
      */
-    public void setCacheObject(String key, Object value, long timeOut, TimeUnit timeUnit){
-        redisTemplate.opsForValue().set(key, JSONUtil.toJsonStr(value),timeOut,timeUnit);
+    public <T>  void setCacheObject(final String key,final T value, long timeOut, TimeUnit timeUnit){
+        redisTemplate.opsForValue().set(key, value,timeOut,timeUnit);
     }
 
     /**
@@ -73,8 +76,8 @@ public class RedisCache {
      * @param key 键名
      * @param value 值
      */
-    public void setCacheObject(String key, Object value){
-        redisTemplate.opsForValue().set(key, JSONUtil.toJsonStr(value),expireTime,MINUTES);
+    public <T>  void setCacheObject(final String key, final T value){
+        redisTemplate.opsForValue().set(key, value,expireTime,MINUTES);
     }
 
     /**
@@ -152,6 +155,30 @@ public class RedisCache {
      */
     public boolean delCache(String key){
         return stringRedisTemplate.delete(key);
+    }
+
+
+    /**
+     * 删除集合对象
+     *
+     * @param collection 多个对象
+     * @return
+     */
+    public boolean deleteObject(final Collection collection)
+    {
+        return redisTemplate.delete(collection) > 0;
+    }
+
+
+    /**
+     * 获得缓存的基本对象列表
+     *
+     * @param pattern 字符串前缀
+     * @return 对象列表
+     */
+    public Collection<String> keys(final String pattern)
+    {
+        return redisTemplate.keys(pattern);
     }
 
 
