@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * 字典表 数据层
  * 
- * @author ruoyi
+ *   @author 姓陈的
  */
 public interface SysDictTypeMapper
 {

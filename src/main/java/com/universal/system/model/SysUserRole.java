@@ -9,7 +9,7 @@ import lombok.ToString;
 /**
  * 用户和角色关联 sys_user_role
  * 
- * @author ruoyi
+ *   @author 姓陈的
  */
 @Data
 @ToString

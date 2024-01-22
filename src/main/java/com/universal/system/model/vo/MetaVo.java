@@ -6,7 +6,7 @@ import com.universal.system.common.utils.StringUtils;
 /**
  * 路由显示信息
  * 
- * @author ruoyi
+ *   @author 姓陈的
  */
 public class MetaVo
 {

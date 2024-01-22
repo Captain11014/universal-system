@@ -16,7 +16,7 @@
 ///**
 // * RuoYi首创 自定义权限实现，ss取自SpringSecurity首字母
 // *
-// * @author ruoyi
+// *   @author 姓陈的
 // */
 //@Service("ss")
 //public class PermissionService

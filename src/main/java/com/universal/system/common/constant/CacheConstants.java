@@ -3,7 +3,7 @@ package com.universal.system.common.constant;
 /**
  * 缓存的key 常量
  * 
- * @author ruoyi
+ *   @author 姓陈的
  */
 public class CacheConstants
 {

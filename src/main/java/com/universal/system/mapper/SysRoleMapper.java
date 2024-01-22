@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * 角色表 数据层
  * 
- * @author ruoyi
+ *   @author 姓陈的
  */
 public interface SysRoleMapper
 {

@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
 /**
  * 字典 业务层处理
  * 
- * @author ruoyi
+ *   @author 姓陈的
  */
 @Service
 public class SysDictTypeServiceImpl implements SysDictTypeService

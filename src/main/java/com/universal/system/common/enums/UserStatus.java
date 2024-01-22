@@ -3,7 +3,7 @@ package com.universal.system.common.enums;
 /**
  * 用户状态
  * 
- * @author ruoyi
+ *   @author 姓陈的
  */
 public enum UserStatus
 {
